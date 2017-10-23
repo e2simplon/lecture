@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Pierre feuille ciseau</title>
+<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+<style>
+body {
+	margin:0;
+	padding: 0;
+	}
+#titre {
+	position:fixed;
+	left:0px;
+	top:0px;
+	text-align:center;
+	width:100%;
+	display:block;
+	font-family: 'Lobster', cursive;
+	font-size:50px;
+	padding:20px;
+	color:white;
+	background-color:black;
+	}
+#gauche, #droite {
+	float:left;
+	width:50%;
+	background-color:#C3C2C2;
+	min-height: 100vh;
+	text-align:center;
+	}
+#resultat-gauche, #resultat-droite {
+	text-align:center;
+	margin-top:100px;
+	font-family: 'Lobster', cursive;
+	font-size:70px;
+	color:white;
+	text-transform: capitalize;
+	}
+#image-gauche, #image-droite {
+	text-align:center;
+	height:300px;
+	background-image:url(images-pfc/depart.jpg);
+	background-position:center;
+	background-repeat:no-repeat;
+	background-size: 300px 300px; 
+	}
+#rejouer {
+	position:fixed;
+	left:0px;
+	bottom:0px;
+	text-align:center;
+	width:100%;
+	display:block;
+	}
+.bouton {
+	margin-bottom:20px;
+	padding:20px;
+	font-family: 'Lobster', cursive;
+	font-size:60px;
+	background-color:#C3C2C2;
+	border-radius:20px;
+	border:none;
+	}
+</style>
+</head>
+
+<body onload="Initialisation();">
+<div id="titre">Chifoumi</div>
+<div id="gauche">
+	<div id="resultat-gauche">Gagné</div>
+    <div id="image-gauche" onclick="joueurGauche();"></div>
+</div>
+<div id="droite">
+	<div id="resultat-droite">Perdu</div>
+    <div id="image-droite" onclick="joueurDroite();"></div>
+</div>
+<div id="rejouer"> <button type="button" class="bouton" onclick="Initialisation();"> Rejouer </button> </div>
+<script>
+function Initialisation() {
+   document.getElementById("rejouer").style.display="none";
+   document.getElementById("resultat-gauche").innerHTML="&nbsp;";
+   document.getElementById("resultat-droite").innerHTML="&nbsp;";
+   ResultatJeux = ["rien", "rien"];
+   chifoumi = ["pierre", "ciseau", "feuille"];
+   document.getElementById('image-gauche').style.pointerEvents = 'auto';
+   document.getElementById('image-droite').style.pointerEvents = 'auto';
+   document.getElementById("gauche").style.backgroundColor=document.getElementById("droite").style.backgroundColor="#C3C2C2";
+   document.getElementById("titre").innerHTML="Chifoumi";
+   document.getElementById("image-gauche").style.backgroundImage=document.getElementById("image-droite").style.backgroundImage="url(images-pfc/depart.jpg)";
+}
+
+function joueurGauche() {
+var ChoixAleatoire = Math.floor(Math.random()*chifoumi.length);
+ResultatJeux[0]=chifoumi[ChoixAleatoire];
+document.getElementById("image-gauche").style.backgroundImage="url(images-pfc/"+chifoumi[ChoixAleatoire]+".jpg)";
+document.getElementById("gauche").style.backgroundColor="black";
+document.getElementById("resultat-gauche").innerHTML=chifoumi[ChoixAleatoire];
+document.getElementById('image-gauche').style.pointerEvents = 'none';
+checkGame();
+}
+
+function joueurDroite() {
+var ChoixAleatoire = Math.floor(Math.random()*chifoumi.length);
+ResultatJeux[1]=chifoumi[ChoixAleatoire];
+document.getElementById("image-droite").style.backgroundImage="url(images-pfc/"+chifoumi[ChoixAleatoire]+".jpg)";
+document.getElementById("droite").style.backgroundColor="black";
+document.getElementById("resultat-droite").innerHTML=chifoumi[ChoixAleatoire];
+document.getElementById('image-droite').style.pointerEvents = 'none';
+checkGame();
+ 
+}
+
+function checkGame() {
+	setTimeout(function () {
+if (ResultatJeux[0] != 'rien' && ResultatJeux[1] != 'rien') {
+	
+	if (ResultatJeux[0] === ResultatJeux[1]) {
+		document.getElementById("titre").innerHTML="Egalité, ça craint !!";
+		document.getElementById("droite").style.backgroundColor=document.getElementById("gauche").style.backgroundColor="red";
+		}
+		
+		if (ResultatJeux[0] === 'ciseau' && ResultatJeux[1] === 'pierre') {
+		document.getElementById("titre").innerHTML="La pierre défonce le ciseau";
+		document.getElementById("gauche").style.backgroundColor="red";
+		document.getElementById("droite").style.backgroundColor="green";
+		document.getElementById("resultat-gauche").innerHTML="Perdu";
+		document.getElementById("resultat-droite").innerHTML="Gagné";
+		}
+		
+		if (ResultatJeux[0] === 'ciseau' && ResultatJeux[1] === 'feuille') {
+		document.getElementById("titre").innerHTML="Le ciseau coupe la feuille";
+		document.getElementById("gauche").style.backgroundColor="green";
+		document.getElementById("droite").style.backgroundColor="red";
+		document.getElementById("resultat-gauche").innerHTML="Gagné";
+		document.getElementById("resultat-droite").innerHTML="Perdu";
+		}
+		
+		if (ResultatJeux[0] === 'feuille' && ResultatJeux[1] === 'pierre') {
+		document.getElementById("titre").innerHTML="La feuille enveloppe la pierre";
+		document.getElementById("gauche").style.backgroundColor="green";
+		document.getElementById("droite").style.backgroundColor="red";
+		document.getElementById("resultat-gauche").innerHTML="Gagné";
+		document.getElementById("resultat-droite").innerHTML="Perdu";
+		}
+		
+		if (ResultatJeux[0] === 'feuille' && ResultatJeux[1] === 'ciseau') {
+		document.getElementById("titre").innerHTML="Le ciseau coupe la feuille";
+		document.getElementById("gauche").style.backgroundColor="red";
+		document.getElementById("droite").style.backgroundColor="green";
+		document.getElementById("resultat-gauche").innerHTML="Perdu";
+		document.getElementById("resultat-droite").innerHTML="Gagné";
+		}
+		
+		if (ResultatJeux[0] === 'pierre' && ResultatJeux[1] === 'feuille') {
+		document.getElementById("titre").innerHTML="La feuille enveloppe la pierre";
+		document.getElementById("gauche").style.backgroundColor="red";
+		document.getElementById("droite").style.backgroundColor="green";
+		document.getElementById("resultat-gauche").innerHTML="Perdu";
+		document.getElementById("resultat-droite").innerHTML="Gagné";
+		}
+		
+		if (ResultatJeux[0] === 'pierre' && ResultatJeux[1] === 'ciseau') {
+		document.getElementById("titre").innerHTML="La pierre défonce le ciseau";
+		document.getElementById("gauche").style.backgroundColor="green";
+		document.getElementById("droite").style.backgroundColor="red";
+		document.getElementById("resultat-gauche").innerHTML="Gagné";
+		document.getElementById("resultat-droite").innerHTML="Perdu";
+		}
+		
+	document.getElementById("rejouer").style.display="initial";
+	}
+	;}, 1000);
+}
+
+</script>
+</body>
+</html>
